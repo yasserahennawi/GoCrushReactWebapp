@@ -4,6 +4,7 @@ import Header from '../../components/Header';
 import Homepage from '../../containers/Homepage';
 import Loginpage from '../../containers/Loginpage';
 import styled from 'styled-components';
+import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 
 var routes = {};
 function route (path, templateId, controller) {
@@ -18,12 +19,13 @@ function router () {
   el = el || document.getElementById('app');
   var url = location.hash.slice(1) || '/';
   var route = routes[url];
-    console.log(route.templateId);
     ReactDOM.render(
-      <App children= {[
-        <Header />,
-        route.templateId
-      ]} />,
+      <App children= {
+        <div style={{ width: '100%' }}>
+          <Header />
+          {route.templateId}
+        </div>
+      } />,
       document.getElementById('root')
     );
     // insertElement(route.templateId);
@@ -53,9 +55,11 @@ class App extends React.Component {
 
   render() {
     return (
-      <AppWrapper id="app">
-        {this.props.children}
-      </AppWrapper>
+      <MuiThemeProvider>
+        <AppWrapper id="app">
+          {this.props.children}
+        </AppWrapper>
+      </MuiThemeProvider>
     );
   }
 };

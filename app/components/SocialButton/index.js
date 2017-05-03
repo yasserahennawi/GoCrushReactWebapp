@@ -19,7 +19,7 @@ const LogoContainer = styled.div `
 const Text = styled.div `
   flex-grow: 1;
   text-align: center;
-  font-size: 18px;
+  font-size: 16px;
   font-family: 'Roboto';
   // font-weight: 300;
 `

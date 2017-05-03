@@ -1,6 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import SocialButton from '../../components/SocialButton';
+import Paper from '../../components/Paper';
 
 const Wrapper = styled.section`
   display: flex;
@@ -9,16 +10,6 @@ const Wrapper = styled.section`
   box-sizing: border-box;
   max-width: 600px;
   margin: auto 0;
-`;
-
-const Paper = styled.section`
-  flex-direction: column;
-  display: flex;
-  width: 100%;
-  padding: 40px 20px;
-  background-color: white;
-  box-sizing: border-box;
-  border-bottom: 1px solid #EEE;
 `;
 
 const Login = styled.h2`
