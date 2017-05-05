@@ -20,12 +20,10 @@ function router () {
   var url = location.hash.slice(1) || '/';
   var route = routes[url];
     ReactDOM.render(
-      <App children= {
-        <div style={{ width: '100%' }}>
+      <App>
           <Header />
           {route.templateId}
-        </div>
-      } />,
+      </App>,
       document.getElementById('root')
     );
     // insertElement(route.templateId);

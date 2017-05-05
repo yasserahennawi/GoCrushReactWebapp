@@ -8,13 +8,15 @@ const Image = styled.div`
 `;
 
 
-function CircularImage(props) {
+function CircularImage({image, diameter, ...props}) {
   return (
-    <Image style={{
-      width: props.diameter,
-      height: props.diameter,
-      backgroundImage: `url(${props.image})`
-    }}/>
+    <Image  
+      { ...props }
+      style={{
+        width: diameter,
+        height: diameter,
+        backgroundImage: `url(${image})`
+      }} />
   );
 }
 
@@ -22,5 +24,4 @@ CircularImage.defaultProps = {
   image: '../static/anonymous.jpg' ,
   diameter: '50px'
 };
-
 export default CircularImage;

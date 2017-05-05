@@ -2,7 +2,10 @@ import React from 'react';
 import styled from 'styled-components';
 import TextField from 'material-ui/TextField';
 import CircularImage from '../CircularImage';
+import PropTypes from 'prop-types';
 import CrushListItem from '../CrushListItem';
+import injectTapEventPlugin from 'react-tap-event-plugin';
+injectTapEventPlugin();
 
 const Wrapper = styled.div`
   flex-direction: column;
@@ -12,8 +15,8 @@ const Wrapper = styled.div`
 `;
 
 const ListTitle = styled.h4`
-  font-size: 16px;
   font-family: 'Roboto';
+  font-size: 16px;
   font-weight: 500;
   margin: 0 0 15px;
 `;
@@ -21,10 +24,11 @@ const ListTitle = styled.h4`
 const CrushList = styled.div`
   display: flex;
   flex-direction: column;
-  padding-left: 5px;
+  padding-left: 10px;
   & > div:last-child {
     margin: 0;
   }
+  // margin-bottom: 20px;
 `;
 
 const CrushRow = styled(CrushListItem)`
@@ -36,25 +40,39 @@ function randomIntFromInterval(min,max)
     return Math.floor(Math.random()*(max-min+1)+min);
 }
 
-function MyCrushes(props) {
+function MyCrushes({crushes, ...props}) {
   
-  const listItems = props.crushes.map((crush, index) =>
+  const listItems = crushes.map((crush, index) =>
     <CrushRow 
       key={index}
       crushName= {crush.crushName}
       crushImage= {`https://randomuser.me/api/portraits/men/${index+randomIntFromInterval(1,70)}.jpg`}
-      onDeleteClick= {crush.onDeleteClick} />
+      onDeleteClick= {()=>{crush.onDeleteClick; alert(`Delete no.${index+1} clicked`)}} />
   );
   
   return (
-      <Wrapper>
+      <Wrapper {...props}>
         <ListTitle>
           You have crush on:
         </ListTitle>
         <CrushList>
           {listItems}
         </CrushList>
-        <TextField />
+        <TextField
+          style={{
+            width:' calc(100% - 10px)',
+            whiteSpace:' nowrap',
+            overflow:' hidden',
+            textOverflow:' ellipsis',
+            boxSizing:' border-box',
+            marginLeft:' 10px',
+          }}
+          floatingLabelText="Paste your crush About-URL here"
+          floatingLabelFocusStyle={{color: '#c33c3c'}}
+          floatingLabelStyle={{
+            fontSize: '16px',
+            fontWeight: '500'}}
+          underlineFocusStyle={{borderColor: '#c33c3c'}}/>
       </Wrapper>
   );
 }
@@ -64,17 +82,14 @@ MyCrushes.defaultProps = {
     {
       crushName: 'Romain Hoogmoed',
       crushImage: '../static/anonymous.jpg',
-      onDeleteClick: ()=> alert("delete button Clicked")
     },
     {
       crushName: 'Santiago Bernabeu',
       crushImage: '../static/anonymous.jpg',
-      onDeleteClick: ()=> alert("delete button Clicked")
     },
     {
       crushName: 'Milo Michael',
       crushImage: '../static/anonymous.jpg',
-      onDeleteClick: ()=> alert("delete button Clicked")
     }
   ]
   // crushName: 'Milo Michael',

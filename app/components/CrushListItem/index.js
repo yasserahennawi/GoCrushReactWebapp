@@ -14,19 +14,28 @@ const CrushName = styled.h4`
   font-weight: 400;
   flex-grow: 1;
   margin: 0 0 0 10px;
+  padding-right: 5px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 `;
 
 const Delete = styled.h4`
+  flex-shrink: 0;
   color: #C33C3C;
   font-weight: 400;
   cursor: pointer;
   margin: 0;
 `;
 
+const CrushImage = styled(CircularImage)`
+  flex-shrink: 0;
+`
+
 function CrushListItem({crushImage, crushName, onDeleteClick, ...props}) {
   return (
     <CrushRow { ...props }>
-      <CircularImage 
+      <CrushImage 
         diameter='40px'
         image={crushImage}
         />
