@@ -5,6 +5,13 @@ import Paper from '../../components/Paper';
 import WelcomeHero from '../../components/WelcomeHero'
 import CrushesOnMe from '../../components/CrushesOnMe'
 import MyCrushes from '../../components/MyCrushes'
+import {getToken} from '../../utils/token.js';
+import {authUser} from '../../APIs/userAPI.js';
+import {getMyCrushesPromise} from '../../APIs/crushAPI.js';
+import Cookies from 'universal-cookie';
+import request from 'superagent-bluebird-promise';
+
+const cookies = new Cookies();
 
 const Wrapper = styled.section`
   display: flex;
@@ -35,12 +42,44 @@ const ContentWrapper = styled.div`
 `;
 
 
+
 class Homepage extends React.Component {
-  render(){
+
+
+
+  componentWillMount() {
+    this.setState({
+      userData: null,
+    });
+
+    getToken();
+    authUser().then((data)=>{
+      this.setState({
+        userData: data,
+      });
+      cookies.set('appUserID', data.body.appUserID);
+      getMyCrushesPromise();
+      return data ;
+    })
+    .then((data)=>{
+    })
+    // const { cookies } = this.props;
+    // this.state = {
+    //   token: cookies.get('token'),
+    // };
+  }
+
+  componentDidMount() {
+
+  }
+
+  getHomepage(userData) {
     return (
       <Wrapper>
         <Paper>
-          <WelcomeHeroWrapper />
+          <WelcomeHeroWrapper 
+            userName={userData.body.displayName}
+            userImage={userData.body.pictureUrl}/>
           <ContentWrapper>
             <MyCrushesComponent />
             <CrushesOnMe />
@@ -49,8 +88,19 @@ class Homepage extends React.Component {
       </Wrapper>
     )
   }
+
+  loading(){
+    return <div>loading</div>
+  }
+
+  render(){
+    const userData = this.state.userData;
+    if (userData) {
+      return this.getHomepage(userData)
+    } else {
+      return this.loading()
+    }
+  }
 }
 
 export default Homepage;
-
-

@@ -27,9 +27,11 @@ const Text = styled.div `
 class SocialButton extends React.Component {
   render() {
     return (
-      <SocialButtonWrapper style={{
-        backgroundColor: this.props.backgroundColor
-      }}>
+      <SocialButtonWrapper 
+        onClick={this.props.onClick}
+        style={{
+          backgroundColor: this.props.backgroundColor
+        }}>
         <LogoContainer>
           {this.props.logo}
         </LogoContainer>

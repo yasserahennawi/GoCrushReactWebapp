@@ -29,6 +29,7 @@ class Loginpage extends React.Component {
         <Paper>
           <Login>Login</Login>
           <SocialButton 
+            onClick={()=>alert("Login with facebook clicked")}
             text="Sign in with facebook" 
             logo="" 
             textColor="#FFF" 
