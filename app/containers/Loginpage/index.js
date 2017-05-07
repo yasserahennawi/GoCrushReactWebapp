@@ -21,23 +21,25 @@ const Login = styled.h2`
   font-weight: 300;
 `
 
-
 class Loginpage extends React.Component {
-  render(){
+
+  getLoginpage() {
     return (
       <Wrapper>
         <Paper>
           <Login>Login</Login>
           <SocialButton 
-            onClick={()=>alert("Login with facebook clicked")}
-            text="Sign in with facebook" 
-            logo="" 
-            textColor="#FFF" 
-            backgroundColor="#3b5998" />
+            href='http://localhost:4567/api/login'
+            text='Sign in with facebook'
+            logo='' 
+            textColor='#FFF'
+            backgroundColor='#3b5998'/>
         </Paper>
       </Wrapper>
     )
   }
+  
+  render() {return this.getLoginpage()}
 }
 
 export default Loginpage;

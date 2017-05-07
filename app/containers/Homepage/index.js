@@ -5,9 +5,8 @@ import Paper from '../../components/Paper';
 import WelcomeHero from '../../components/WelcomeHero'
 import CrushesOnMe from '../../components/CrushesOnMe'
 import MyCrushes from '../../components/MyCrushes'
-import {getToken} from '../../utils/token.js';
 import {authUser} from '../../APIs/userAPI.js';
-import {getMyCrushesPromise} from '../../APIs/crushAPI.js';
+import {deleteCrushPromise, getMyCrushesPromise, crushOnPromise} from '../../APIs/crushAPI.js';
 import Cookies from 'universal-cookie';
 import request from 'superagent-bluebird-promise';
 
@@ -42,26 +41,70 @@ const ContentWrapper = styled.div`
 `;
 
 
-
 class Homepage extends React.Component {
+  removeStatedCrush(id) {
+    var statedCrushes = this.state.userCrushes.body;
+    for(let statedCrush  of statedCrushes) {
+      var key = statedCrushes.indexOf(statedCrush);
+      if (id == statedCrush.fbCrushID) {
+        this.setState({
+          userCrushes: {body: [
+            ...statedCrushes.splice(0,key),
+            ...statedCrushes.splice(key+1),
+          ]}
+        })
+      }
+    }
+  }
 
+  onSubmitCrush(e){
+    e.preventDefault();
+    crushOnPromise(this.state.textFieldValue)
+    .then((data)=>{
+      var arr = this.state.userCrushes.body;
+      this.setState({
+        userCrushes: {body: [
+          ...arr,
+          data.body
+        ]}
+      })
+    })
+  }
 
+  onDeleteCrush(id){
+    deleteCrushPromise(id)
+    .then((data)=>{
+      this.removeStatedCrush(id);
+    })
+  }
+
+  onTextFieldChange(e){
+    this.setState({
+        textFieldValue: e.target.value,
+    })
+  }
 
   componentWillMount() {
+    this.onTextFieldChange = this.onTextFieldChange.bind(this);
+    this.onSubmitCrush = this.onSubmitCrush.bind(this);
     this.setState({
       userData: null,
+      userCrushes: null,
+      textFieldValue: ''
     });
 
-    getToken();
-    authUser().then((data)=>{
+    authUser()
+    .then((data)=>{
       this.setState({
         userData: data,
       });
       cookies.set('appUserID', data.body.appUserID);
-      getMyCrushesPromise();
-      return data ;
+      return  getMyCrushesPromise()
     })
     .then((data)=>{
+      this.setState({
+        userCrushes: data,
+      });
     })
     // const { cookies } = this.props;
     // this.state = {
@@ -70,10 +113,17 @@ class Homepage extends React.Component {
   }
 
   componentDidMount() {
-
   }
-
-  getHomepage(userData) {
+  getHomepage(userData, userCrushes) {
+    var crushes = userCrushes.body.map((crush, index)=>{
+      return ({
+        crushName: crush.crushDisplayName,
+        crushImage: crush.crushPictureUrl ,
+        onDeleteClick: ()=> {
+          this.onDeleteCrush(crush.fbCrushID)
+        },
+      })
+    })
     return (
       <Wrapper>
         <Paper>
@@ -81,8 +131,12 @@ class Homepage extends React.Component {
             userName={userData.body.displayName}
             userImage={userData.body.pictureUrl}/>
           <ContentWrapper>
-            <MyCrushesComponent />
-            <CrushesOnMe />
+            <MyCrushesComponent
+              crushes={crushes}
+              onSubmit={this.onSubmitCrush}
+              textFieldValue={this.state.textFieldValue}
+              onTextFieldChange={this.onTextFieldChange}/>
+           <CrushesOnMe />
           </ContentWrapper>
         </Paper>
       </Wrapper>
@@ -95,11 +149,8 @@ class Homepage extends React.Component {
 
   render(){
     const userData = this.state.userData;
-    if (userData) {
-      return this.getHomepage(userData)
-    } else {
-      return this.loading()
-    }
+    const userCrushes = this.state.userCrushes;
+    return userData && userCrushes ? this.getHomepage(userData, userCrushes) : this.loading() 
   }
 }
 

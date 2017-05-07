@@ -8,10 +8,9 @@ var cachedCrushes;
 // START: Handling Users's crushes API
 export function getMyCrushesPromise() {
   if (cachedCrushes == null) {
-    request.get(`http://localhost:4567/api/users/${cookies.get('appUserID')}/crushes`)
+    return request.get(`http://localhost:4567/api/users/${cookies.get('appUserID')}/crushes`)
     .set('Authorization', cookies.get('Authorization'))
     .then((data)=>{
-      cachedCrushes = data;
       return data;
     });
   }
@@ -33,21 +32,20 @@ export function getCrushesOnMePromise(){
 
 // START: Handling adding crush
 export function crushOnPromise(crushURL){
-  request.post(`http://localhost:4567/api/users/${cookies.get('appUserID')}/crushes`)
+  return request.post(`http://localhost:4567/api/users/${cookies.get('appUserID')}/crushes`)
     .set('Authorization', cookies.get('Authorization'))
+    .send(crushURL)
     .then((data)=>{
-      addCrushToCache(data);
       return data;
     })
 }
 // END: Handling adding crush
 
 // START: Handling deleting crush
-export function deleteCrushPromise(crushURL) {
-  request.delete(`http://localhost:4567/api/users/${cookies.get('appUserID')}/crushes/${crushURL}`)
+export function deleteCrushPromise(crushFbId) {
+  return request.delete(`http://localhost:4567/api/users/${cookies.get('appUserID')}/crushes/${crushFbId}`)
     .set('Authorization', cookies.get('Authorization'))
     .then((data)=>{
-      deleteCrushfromCache(data);
       return data;
     })
 }

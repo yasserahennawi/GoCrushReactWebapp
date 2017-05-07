@@ -6,7 +6,7 @@ const cookies = new Cookies();
 export function getToken() {
   if ( getParameterByName('token') != null ) {
     cookies.set('Authorization', getParameterByName('token'));
-    window.location.href = location.protocol + '//' + location.host + location.pathname;
+    window.location.href = '/#/';
   } 
 }
 

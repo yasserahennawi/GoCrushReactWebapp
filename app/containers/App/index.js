@@ -17,12 +17,12 @@ route('/login', <Loginpage />, function () {console.log("a8as")});
 var el = null;
 function router () {
   el = el || document.getElementById('app');
-  var url = location.hash.slice(1) || '/';
+  var url = location.href.split('?')[0].split('#')[1]  || '/';
   var route = routes[url];
     ReactDOM.render(
       <App>
-          <Header />
-          {route.templateId}
+        <Header />
+        {route.templateId}            
       </App>,
       document.getElementById('root')
     );

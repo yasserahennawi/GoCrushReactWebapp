@@ -40,14 +40,14 @@ function randomIntFromInterval(min,max)
     return Math.floor(Math.random()*(max-min+1)+min);
 }
 
-function MyCrushes({crushes, ...props}) {
+function MyCrushes({onSubmit, textFieldValue, onTextFieldChange, crushes, onChange, ...props}) {
   
   const listItems = crushes.map((crush, index) =>
     <CrushRow 
       key={index}
       crushName= {crush.crushName}
-      crushImage= {`https://randomuser.me/api/portraits/men/${index+randomIntFromInterval(1,70)}.jpg`}
-      onDeleteClick= {()=>{crush.onDeleteClick; alert(`Delete no.${index+1} clicked`)}} />
+      crushImage= {crush.crushImage}
+      onDeleteClick= {crush.onDeleteClick} />
   );
   
   return (
@@ -58,21 +58,25 @@ function MyCrushes({crushes, ...props}) {
         <CrushList>
           {listItems}
         </CrushList>
-        <TextField
-          style={{
-            width:' calc(100% - 10px)',
-            whiteSpace:' nowrap',
-            overflow:' hidden',
-            textOverflow:' ellipsis',
-            boxSizing:' border-box',
-            marginLeft:' 10px',
-          }}
-          floatingLabelText="Paste your crush About-URL here"
-          floatingLabelFocusStyle={{color: '#c33c3c'}}
-          floatingLabelStyle={{
-            fontSize: '16px',
-            fontWeight: '500'}}
-          underlineFocusStyle={{borderColor: '#c33c3c'}}/>
+        <form onSubmit={onSubmit}>
+          <TextField
+            value={textFieldValue}
+            onChange={onTextFieldChange}
+            style={{
+              width:' calc(100% - 10px)',
+              whiteSpace:' nowrap',
+              overflow:' hidden',
+              textOverflow:' ellipsis',
+              boxSizing:' border-box',
+              marginLeft:' 10px',
+            }}
+            floatingLabelText="Paste your crush About-URL here"
+            floatingLabelFocusStyle={{color: '#c33c3c'}}
+            floatingLabelStyle={{
+              fontSize: '16px',
+              fontWeight: '500'}}
+            underlineFocusStyle={{borderColor: '#c33c3c'}}/>
+        </form>
       </Wrapper>
   );
 }

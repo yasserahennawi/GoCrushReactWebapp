@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 
-const SocialButtonWrapper = styled.div `
+const SocialButtonWrapper = styled.a `
   display: flex;
   align-items: center;
   width: 100%;
@@ -9,6 +9,7 @@ const SocialButtonWrapper = styled.div `
   padding: 0 10px;
   box-sizing: border-box;
   border-bottom: 1px solid #EEE;
+  cursor: pointer
 `
 const LogoContainer = styled.div `
   display: flex;
@@ -24,25 +25,24 @@ const Text = styled.div `
   // font-weight: 300;
 `
 
-class SocialButton extends React.Component {
-  render() {
-    return (
-      <SocialButtonWrapper 
-        onClick={this.props.onClick}
-        style={{
-          backgroundColor: this.props.backgroundColor
-        }}>
-        <LogoContainer>
-          {this.props.logo}
-        </LogoContainer>
-        <Text style={{
-          color: this.props.textColor
-        }}>
-          {this.props.text}
-        </Text>
-      </SocialButtonWrapper>
-    );
-  }
+function SocialButton({onClick, backgroundColor, logo, textColor, text, ...props}) {
+  return (
+    <SocialButtonWrapper 
+      { ...props}
+      onClick={onClick}
+      style={{
+        backgroundColor: backgroundColor
+      }}>
+      <LogoContainer>
+        {logo}
+      </LogoContainer>
+      <Text style={{
+        color: textColor
+      }}>
+        {text}
+      </Text>
+    </SocialButtonWrapper>
+  );
 };
 
 export default SocialButton;

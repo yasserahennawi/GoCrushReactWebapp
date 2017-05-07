@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "GoCrush Webapp with React.js Framework",
   "scripts": {
-    "start": "concurrently  \"webpack --watch --config internal/webpack/webpack.config.js  \" \"webpack-dev-server --inline --config internal/webpack/webpack.config.js --content-base app/ \"",
+    "start": "concurrently  \"webpack --watch --config internal/webpack/webpack.config.js  \" \"webpack-dev-server --inline --config internal/webpack/webpack.config.js --port=1111 --content-base app/ \"",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "Yasser Hennawi",
