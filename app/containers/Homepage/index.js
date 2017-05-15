@@ -6,7 +6,8 @@ import WelcomeHero from '../../components/WelcomeHero'
 import CrushesOnMe from '../../components/CrushesOnMe'
 import MyCrushes from '../../components/MyCrushes'
 import {authUser} from '../../APIs/userAPI.js';
-import {deleteCrushPromise, getMyCrushesPromise, crushOnPromise} from '../../APIs/crushAPI.js';
+import {getCrushesOnMePromise, deleteCrushPromise, getMyCrushesPromise, crushOnPromise} from '../../APIs/crushAPI.js';
+import {errorHandler} from '../../ErrorHandling';
 import Cookies from 'universal-cookie';
 import request from 'superagent-bluebird-promise';
 
@@ -43,15 +44,15 @@ const ContentWrapper = styled.div`
 
 class Homepage extends React.Component {
   removeStatedCrush(id) {
-    var statedCrushes = this.state.userCrushes.body;
-    for(let statedCrush  of statedCrushes) {
+    var statedCrushes = this.state.userCrushes;
+    for(let statedCrush of statedCrushes) {
       var key = statedCrushes.indexOf(statedCrush);
       if (id == statedCrush.fbCrushID) {
         this.setState({
-          userCrushes: {body: [
-            ...statedCrushes.splice(0,key),
-            ...statedCrushes.splice(key+1),
-          ]}
+          userCrushes: [
+            ...statedCrushes.slice(0,key),
+            ...statedCrushes.slice(key+1),
+          ]
         })
       }
     }
@@ -61,13 +62,24 @@ class Homepage extends React.Component {
     e.preventDefault();
     crushOnPromise(this.state.textFieldValue)
     .then((data)=>{
-      var arr = this.state.userCrushes.body;
+      var arr = this.state.userCrushes;
       this.setState({
-        userCrushes: {body: [
+        userCrushes: [
           ...arr,
-          data.body
-        ]}
+          data
+        ],
+        textFieldValue: ''
       })
+
+      return getCrushesOnMePromise();
+    })
+    .then((data)=>{
+      this.setState({
+        crushesOnMe: data
+      });
+    })
+    .catch((e)=>{
+      alert(errorHandler(e));
     })
   }
 
@@ -75,6 +87,15 @@ class Homepage extends React.Component {
     deleteCrushPromise(id)
     .then((data)=>{
       this.removeStatedCrush(id);
+      return getCrushesOnMePromise();
+    })
+    .then((data)=>{
+      this.setState({
+        crushesOnMe: data
+      });
+    })
+    .catch((e)=>{
+      alert(errorHandler(e));
     })
   }
 
@@ -88,9 +109,8 @@ class Homepage extends React.Component {
     this.onTextFieldChange = this.onTextFieldChange.bind(this);
     this.onSubmitCrush = this.onSubmitCrush.bind(this);
     this.setState({
-      userData: null,
-      userCrushes: null,
-      textFieldValue: ''
+      textFieldValue: '',
+      crushesOnMe: 0
     });
 
     authUser()
@@ -98,7 +118,13 @@ class Homepage extends React.Component {
       this.setState({
         userData: data,
       });
-      cookies.set('appUserID', data.body.appUserID);
+      cookies.set('appUserID', data.appUserID);
+      return getCrushesOnMePromise();
+    })
+    .then((data)=>{
+      this.setState({
+        crushesOnMe: data
+      });
       return  getMyCrushesPromise()
     })
     .then((data)=>{
@@ -106,37 +132,37 @@ class Homepage extends React.Component {
         userCrushes: data,
       });
     })
-    // const { cookies } = this.props;
-    // this.state = {
-    //   token: cookies.get('token'),
-    // };
+    .catch((e)=>{
+      alert(errorHandler(e));
+    })
   }
 
   componentDidMount() {
   }
-  getHomepage(userData, userCrushes) {
-    var crushes = userCrushes.body.map((crush, index)=>{
+
+  getHomepage(userData, userCrushes, crushesOnMe) {
+    var crushes = userCrushes.map((crush)=>{
       return ({
         crushName: crush.crushDisplayName,
         crushImage: crush.crushPictureUrl ,
         onDeleteClick: ()=> {
           this.onDeleteCrush(crush.fbCrushID)
-        },
+        }
       })
     })
     return (
       <Wrapper>
         <Paper>
           <WelcomeHeroWrapper 
-            userName={userData.body.displayName}
-            userImage={userData.body.pictureUrl}/>
+            userName={userData.displayName}
+            userImage={userData.pictureUrl}/>
           <ContentWrapper>
             <MyCrushesComponent
               crushes={crushes}
               onSubmit={this.onSubmitCrush}
               textFieldValue={this.state.textFieldValue}
               onTextFieldChange={this.onTextFieldChange}/>
-           <CrushesOnMe />
+           <CrushesOnMe crushesNumber={crushesOnMe} />
           </ContentWrapper>
         </Paper>
       </Wrapper>
@@ -148,9 +174,10 @@ class Homepage extends React.Component {
   }
 
   render(){
-    const userData = this.state.userData;
-    const userCrushes = this.state.userCrushes;
-    return userData && userCrushes ? this.getHomepage(userData, userCrushes) : this.loading() 
+    var userData = this.state.userData;
+    var userCrushes = this.state.userCrushes;
+    var crushesOnMe = this.state.crushesOnMe;
+    return userData && crushesOnMe && userCrushes ? this.getHomepage(userData, userCrushes, crushesOnMe) : this.loading() 
   }
 }
 

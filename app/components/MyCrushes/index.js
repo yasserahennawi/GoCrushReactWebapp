@@ -35,11 +35,6 @@ const CrushRow = styled(CrushListItem)`
   margin-bottom: 10px;
 `;
 
-function randomIntFromInterval(min,max)
-{
-    return Math.floor(Math.random()*(max-min+1)+min);
-}
-
 function MyCrushes({onSubmit, textFieldValue, onTextFieldChange, crushes, onChange, ...props}) {
   
   const listItems = crushes.map((crush, index) =>
@@ -96,7 +91,6 @@ MyCrushes.defaultProps = {
       crushImage: '../static/anonymous.jpg',
     }
   ]
-  // crushName: 'Milo Michael',
 }
 
 export default MyCrushes;

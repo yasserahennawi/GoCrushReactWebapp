@@ -2,6 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import SocialButton from '../../components/SocialButton';
 import Paper from '../../components/Paper';
+import Facebook from '../../components/icons/Facebook';
 
 const Wrapper = styled.section`
   display: flex;
@@ -29,9 +30,9 @@ class Loginpage extends React.Component {
         <Paper>
           <Login>Login</Login>
           <SocialButton 
-            href='http://localhost:4567/api/login'
+            onClick={()=>{window.location = 'http://localhost:4567/api/login'}}
             text='Sign in with facebook'
-            logo='' 
+            logo={<Facebook/>}
             textColor='#FFF'
             backgroundColor='#3b5998'/>
         </Paper>

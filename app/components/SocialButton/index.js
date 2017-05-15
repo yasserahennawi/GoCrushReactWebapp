@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 
-const SocialButtonWrapper = styled.a `
+const SocialButtonWrapper = styled.div `
   display: flex;
   align-items: center;
   width: 100%;
@@ -15,14 +15,12 @@ const LogoContainer = styled.div `
   display: flex;
   width: 30px;
   height: 30px;
-  background-color: #FFF;
 `
 const Text = styled.div `
   flex-grow: 1;
   text-align: center;
   font-size: 16px;
   font-family: 'Roboto';
-  // font-weight: 300;
 `
 
 function SocialButton({onClick, backgroundColor, logo, textColor, text, ...props}) {

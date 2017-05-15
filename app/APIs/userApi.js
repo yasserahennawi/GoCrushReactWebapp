@@ -7,5 +7,8 @@ const cookies = new Cookies();
 export function authUser() {
   return request
     .get(`http://localhost:4567/api/users/session`)
-    .set('Authorization', cookies.get('Authorization'));
+    .set('Authorization', cookies.get('Authorization'))
+    .then((data)=>{
+      return data.body
+    })
 }

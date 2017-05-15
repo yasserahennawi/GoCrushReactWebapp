@@ -45,7 +45,7 @@ function CrushesOnMe({crushesNumber, onShareClick, ...props}) {
 }
 
 CrushesOnMe.defaultProps = {
-  crushesNumber: '2',
+  // crushesNumber: '2',
   onShareClick: ()=>alert('Share to facebook Clicked')
 }
 
