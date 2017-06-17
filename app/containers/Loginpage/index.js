@@ -1,6 +1,8 @@
 import React from 'react';
 import styled from 'styled-components';
 import SocialButton from '../../components/SocialButton';
+import Paper from '../../components/Paper';
+import Facebook from '../../components/icons/Facebook';
 
 const Wrapper = styled.section`
   display: flex;
@@ -9,16 +11,6 @@ const Wrapper = styled.section`
   box-sizing: border-box;
   max-width: 600px;
   margin: auto 0;
-`;
-
-const Paper = styled.section`
-  flex-direction: column;
-  display: flex;
-  width: 100%;
-  padding: 40px 20px;
-  background-color: white;
-  box-sizing: border-box;
-  border-bottom: 1px solid #EEE;
 `;
 
 const Login = styled.h2`
@@ -30,22 +22,25 @@ const Login = styled.h2`
   font-weight: 300;
 `
 
-
 class Loginpage extends React.Component {
-  render(){
+
+  getLoginpage() {
     return (
       <Wrapper>
         <Paper>
           <Login>Login</Login>
           <SocialButton 
-            text="Sign in with facebook" 
-            logo="" 
-            textColor="#FFF" 
-            backgroundColor="#3b5998" />
+            onClick={()=>{window.location = 'http://localhost:4567/api/login'}}
+            text='Sign in with facebook'
+            logo={<Facebook/>}
+            textColor='#FFF'
+            backgroundColor='#3b5998'/>
         </Paper>
       </Wrapper>
     )
   }
+  
+  render() {return this.getLoginpage()}
 }
 
 export default Loginpage;

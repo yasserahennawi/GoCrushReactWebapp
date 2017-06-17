@@ -9,38 +9,38 @@ const SocialButtonWrapper = styled.div `
   padding: 0 10px;
   box-sizing: border-box;
   border-bottom: 1px solid #EEE;
+  cursor: pointer
 `
 const LogoContainer = styled.div `
   display: flex;
   width: 30px;
   height: 30px;
-  background-color: #FFF;
 `
 const Text = styled.div `
   flex-grow: 1;
   text-align: center;
-  font-size: 18px;
+  font-size: 16px;
   font-family: 'Roboto';
-  // font-weight: 300;
 `
 
-class SocialButton extends React.Component {
-  render() {
-    return (
-      <SocialButtonWrapper style={{
-        backgroundColor: this.props.backgroundColor
+function SocialButton({onClick, backgroundColor, logo, textColor, text, ...props}) {
+  return (
+    <SocialButtonWrapper 
+      { ...props}
+      onClick={onClick}
+      style={{
+        backgroundColor: backgroundColor
       }}>
-        <LogoContainer>
-          {this.props.logo}
-        </LogoContainer>
-        <Text style={{
-          color: this.props.textColor
-        }}>
-          {this.props.text}
-        </Text>
-      </SocialButtonWrapper>
-    );
-  }
+      <LogoContainer>
+        {logo}
+      </LogoContainer>
+      <Text style={{
+        color: textColor
+      }}>
+        {text}
+      </Text>
+    </SocialButtonWrapper>
+  );
 };
 
 export default SocialButton;

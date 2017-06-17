@@ -4,29 +4,32 @@ import Header from '../../components/Header';
 import Homepage from '../../containers/Homepage';
 import Loginpage from '../../containers/Loginpage';
 import styled from 'styled-components';
+import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 
 var routes = {};
-function route (path, templateId, controller) {
-  routes[path] = {templateId: templateId, controller: controller};
+
+function route (path, component) {
+  routes[path] = {
+    component: component,
+  };
 };
 
-route('/', <Homepage />, function () {console.log("a8as")});
-route('/login', <Loginpage />, function () {console.log("a8as")});
+route('/', <Homepage />);
+route('/login', <Loginpage />);
 
 var el = null;
 function router () {
   el = el || document.getElementById('app');
-  var url = location.hash.slice(1) || '/';
+  var url = location.href.split('?')[0].split('#')[1]  || '/';
   var route = routes[url];
-    console.log(route.templateId);
     ReactDOM.render(
-      <App children= {[
-        <Header />,
-        route.templateId
-      ]} />,
+      <App>
+        <Header />
+        {route.component}
+      </App>,
       document.getElementById('root')
     );
-    // insertElement(route.templateId);
+    // insertElement(route.component);
 }
 
 // insertElement(element) {
@@ -53,9 +56,11 @@ class App extends React.Component {
 
   render() {
     return (
-      <AppWrapper id="app">
-        {this.props.children}
-      </AppWrapper>
+      <MuiThemeProvider>
+        <AppWrapper id="app">
+          {this.props.children}
+        </AppWrapper>
+      </MuiThemeProvider>
     );
   }
 };

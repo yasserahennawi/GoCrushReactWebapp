@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "GoCrush Webapp with React.js Framework",
   "scripts": {
-    "start": "concurrently  \"webpack --watch --config internal/webpack/webpack.config.js  \" \"webpack-dev-server --inline --config internal/webpack/webpack.config.js --content-base app/ \"",
+    "start": "concurrently  \"webpack --watch --config internal/webpack/webpack.config.js  \" \"webpack-dev-server --inline --config internal/webpack/webpack.config.js --port=1111 --content-base app/ \"",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "Yasser Hennawi",
@@ -17,20 +17,28 @@
     "babel": "^6.23.0",
     "babel-cli": "^6.24.1",
     "babel-core": "^6.24.1",
-    "react": "*",
-    "react-dom": "*",
     "babel-loader": "^7.0.0",
+    "babel-plugin-transform-object-rest-spread": "^6.23.0",
     "babel-preset-es2015": "^6.24.1",
     "babel-preset-react": "^6.24.1",
     "raw-loader": "^0.5.1",
+    "react": "*",
+    "react-dom": "*",
     "webpack": "^2.4.1",
     "webpack-dev-server": "^2.4.5"
   },
   "dependencies": {
     "babel-preset-react": "^6.24.1",
+    "bluebird": "^3.5.0",
     "concurrently": "^3.4.0",
     "live-server": "^1.2.0",
+    "material-ui": "^0.18.0",
     "normalize-css": "^2.3.1",
-    "styled-components": "^1.4.5"
+    "react-cookie": "^2.0.6",
+    "react-loader": "^2.4.0",
+    "react-tap-event-plugin": "^2.0.1",
+    "styled-components": "^1.4.5",
+    "superagent": "^3.5.2",
+    "superagent-bluebird-promise": "^4.2.0"
   }
 }

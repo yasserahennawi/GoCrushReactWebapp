@@ -12,6 +12,9 @@ module.exports = {
         test: path.join(process.cwd(), 'app'),
         loader: 'babel-loader',
         query: {
+          "plugins": [
+            "transform-object-rest-spread",
+          ],
           presets: [
             "react"
           ]
