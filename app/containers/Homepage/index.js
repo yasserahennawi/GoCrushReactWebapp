@@ -173,9 +173,6 @@ class Homepage extends React.Component {
     })
     return (
       <Wrapper>
-        <ErrorModalContainer>
-          <HomepageErrorModal/>
-        </ErrorModalContainer>
         <Paper>
           <WelcomeHeroWrapper 
             userName={userData.displayName}
