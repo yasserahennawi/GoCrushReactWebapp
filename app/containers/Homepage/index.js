@@ -2,19 +2,40 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import Paper from '../../components/Paper';
+import ErrorModal from '../../components/ErrorModal';
 import WelcomeHero from '../../components/WelcomeHero'
 import CrushesOnMe from '../../components/CrushesOnMe'
 import MyCrushes from '../../components/MyCrushes'
 import {authUser} from '../../APIs/userAPI.js';
 import {getCrushesOnMePromise, deleteCrushPromise, getMyCrushesPromise, crushOnPromise} from '../../APIs/crushAPI.js';
-import {errorHandler} from '../../ErrorHandling';
+import {getUserErrorMessage} from '../../ErrorHandling';
 import Cookies from 'universal-cookie';
 import request from 'superagent-bluebird-promise';
 
 const cookies = new Cookies();
 
+const ErrorModalContainer = styled.div`
+  background-color: rgba(0,0,0,0.5);
+  width: 100%;
+  // height: calc(100% - 180px);
+  height: 100%;
+  margin-top: -70px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  align-self: center;
+  position: fixed;
+`
+
+const HomepageErrorModal = styled(ErrorModal)`
+  max-width: 500px;
+  margin: auto 0;
+`
+
 const Wrapper = styled.section`
   display: flex;
+  flex-direction: column;
   width: 100%;
   padding: 20px;
   box-sizing: border-box;
@@ -79,7 +100,7 @@ class Homepage extends React.Component {
       });
     })
     .catch((e)=>{
-      alert(errorHandler(e));
+      alert(getUserErrorMessage(e));
     })
   }
 
@@ -95,7 +116,7 @@ class Homepage extends React.Component {
       });
     })
     .catch((e)=>{
-      alert(errorHandler(e));
+      alert(getUserErrorMessage(e));
     })
   }
 
@@ -133,7 +154,7 @@ class Homepage extends React.Component {
       });
     })
     .catch((e)=>{
-      alert(errorHandler(e));
+      alert(getUserErrorMessage(e));
     })
   }
 
@@ -152,6 +173,9 @@ class Homepage extends React.Component {
     })
     return (
       <Wrapper>
+        <ErrorModalContainer>
+          <HomepageErrorModal/>
+        </ErrorModalContainer>
         <Paper>
           <WelcomeHeroWrapper 
             userName={userData.displayName}

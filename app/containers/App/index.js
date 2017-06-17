@@ -7,12 +7,15 @@ import styled from 'styled-components';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 
 var routes = {};
-function route (path, templateId, controller) {
-  routes[path] = {templateId: templateId, controller: controller};
+
+function route (path, component) {
+  routes[path] = {
+    component: component,
+  };
 };
 
-route('/', <Homepage />, function () {console.log("a8as")});
-route('/login', <Loginpage />, function () {console.log("a8as")});
+route('/', <Homepage />);
+route('/login', <Loginpage />);
 
 var el = null;
 function router () {
@@ -22,11 +25,11 @@ function router () {
     ReactDOM.render(
       <App>
         <Header />
-        {route.templateId}            
+        {route.component}
       </App>,
       document.getElementById('root')
     );
-    // insertElement(route.templateId);
+    // insertElement(route.component);
 }
 
 // insertElement(element) {
