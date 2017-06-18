@@ -4,7 +4,11 @@ let app = express();
 
 const PORT = process.env.PORT || 1111;
 
-app.use(express.static(__dirname + '/public'));
+app.use('/build', express.static(__dirname + '/app/build'));
+
+app.get('/', function (req, res) {
+  res.sendfile(__dirname + '/app/index.html');
+})
 
 app.listen(PORT, function(){
   console.log('express server is up on port' + PORT )
