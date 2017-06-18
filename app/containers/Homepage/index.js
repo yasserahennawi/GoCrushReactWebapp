@@ -6,7 +6,7 @@ import ErrorModal from '../../components/ErrorModal';
 import WelcomeHero from '../../components/WelcomeHero'
 import CrushesOnMe from '../../components/CrushesOnMe'
 import MyCrushes from '../../components/MyCrushes'
-import {authUser} from '../../APIs/userAPI.js';
+import {authUser} from '../../APIs/userApi.js';
 import {getCrushesOnMePromise, deleteCrushPromise, getMyCrushesPromise, crushOnPromise} from '../../APIs/crushAPI.js';
 import {getUserErrorMessage} from '../../ErrorHandling';
 import Cookies from 'universal-cookie';
