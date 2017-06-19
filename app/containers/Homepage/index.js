@@ -1,16 +1,17 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
-import Paper from '../../components/Paper';
 import ErrorModal from '../../components/ErrorModal';
 import WelcomeHero from '../../components/WelcomeHero'
 import CrushesOnMe from '../../components/CrushesOnMe'
+import Card from 'material-ui/Card';
 import MyCrushes from '../../components/MyCrushes'
 import {authUser} from '../../APIs/userApi.js';
 import {getCrushesOnMePromise, deleteCrushPromise, getMyCrushesPromise, crushOnPromise} from '../../APIs/crushApi.js';
 import {getUserErrorMessage} from '../../ErrorHandling';
 import Cookies from 'universal-cookie';
 import request from 'superagent-bluebird-promise';
+import Header from '../../components/Header';
 
 const cookies = new Cookies();
 
@@ -42,12 +43,23 @@ const Wrapper = styled.section`
   max-width: 1000px;
 `;
 
+const Paper = styled(Card)`
+  width: 100%;
+  & > div {
+    width: 100%;
+  }
+  padding: 30px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+`
+
 const WelcomeHeroWrapper = styled(WelcomeHero)`
-  margin-bottom: 20px;
+  margin-bottom: 40px;
 `;
 
 const MyCrushesComponent = styled(MyCrushes)`
-  @media (max-width: 640px){
+  @media (max-width: 850px){
     margin-bottom: 30px;
     padding-right: 0;
   }
@@ -56,8 +68,15 @@ const MyCrushesComponent = styled(MyCrushes)`
 
 const ContentWrapper = styled.div`
   display: flex;
-  @media (max-width: 640px){
+  & > div:first-child {
+    margin-bottom: 0;
+    margin-right: 20px;
+  }
+  @media (max-width: 850px){
     flex-direction: column;
+    & > div:first-child {
+      margin-bottom: 20px;
+    }
   }
   flex-direction: row
 `;
@@ -100,7 +119,9 @@ class Homepage extends React.Component {
       });
     })
     .catch((e)=>{
-      alert(getUserErrorMessage(e));
+      if (getUserErrorMessage(e)) {
+        alert(getUserErrorMessage(e));
+      }
     })
   }
 
@@ -116,7 +137,9 @@ class Homepage extends React.Component {
       });
     })
     .catch((e)=>{
-      alert(getUserErrorMessage(e));
+      if (getUserErrorMessage(e)) {
+        alert(getUserErrorMessage(e));
+      }
     })
   }
 
@@ -154,7 +177,9 @@ class Homepage extends React.Component {
       });
     })
     .catch((e)=>{
-      alert(getUserErrorMessage(e));
+      if (getUserErrorMessage(e)) {
+        alert(getUserErrorMessage(e));
+      }
     })
   }
 
@@ -178,12 +203,16 @@ class Homepage extends React.Component {
             userName={userData.displayName}
             userImage={userData.pictureUrl}/>
           <ContentWrapper>
-            <MyCrushesComponent
-              crushes={crushes}
-              onSubmit={this.onSubmitCrush}
-              textFieldValue={this.state.textFieldValue}
-              onTextFieldChange={this.onTextFieldChange}/>
-           <CrushesOnMe crushesNumber={crushesOnMe} />
+            <Paper>
+              <MyCrushesComponent
+                crushes={crushes}
+                onSubmit={this.onSubmitCrush}
+                textFieldValue={this.state.textFieldValue}
+                onTextFieldChange={this.onTextFieldChange}/>
+            </Paper>
+            <Paper>
+              <CrushesOnMe crushesNumber={crushesOnMe} />
+            </Paper>
           </ContentWrapper>
         </Paper>
       </Wrapper>

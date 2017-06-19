@@ -19,6 +19,21 @@ export function getUserErrorMessage(e){
       }
     case "INVALID_URL":
       return "Invalid url Yastaaaaaa";
+    case "FB_ERROR":
+      switch(errorMessage) {
+        case 'String index out of range: -1':
+          return "Lazem yCrush 3ala 7ad :(";
+        default:
+          return errorMessage;
+      }
+    case "BAD_JWT" :
+      switch(errorMessage) {
+        case 'Token is null':
+          window.location.href = '/#/login';
+          return null;
+        default:
+          return errorMessage;
+      }
     default:
       return "there is a Error";
   }

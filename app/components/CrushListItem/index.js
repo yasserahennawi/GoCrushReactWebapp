@@ -32,7 +32,7 @@ const CrushImage = styled(CircularImage)`
   flex-shrink: 0;
 `
 
-function CrushListItem({crushImage, crushName, onDeleteClick, ...props}) {
+function CrushListItem({ crushImage, crushName, onDeleteClick, ...props }) {
   return (
     <CrushRow { ...props }>
       <CrushImage 

@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import SocialButton from '../../components/SocialButton';
-import Paper from '../../components/Paper';
+import Card from 'material-ui/Card';
 import Facebook from '../../components/icons/Facebook';
 
 const Wrapper = styled.section`
@@ -20,6 +20,16 @@ const Login = styled.h2`
   color: rgba(0,0,0,0.15)
   font-family: 'Roboto';
   font-weight: 300;
+`
+
+const Paper = styled(Card)`
+  // flex-direction: column;
+  // display: flex;
+  width: 100%;
+  padding: 40px 30px;
+  // background-color: white;
+  // box-sizing: border-box;
+  // border-bottom: 1px solid #EEE;
 `
 
 class Loginpage extends React.Component {

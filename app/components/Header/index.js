@@ -1,6 +1,9 @@
 import React from 'react';
 import styled from 'styled-components';
+import Cookies from 'universal-cookie';
 import Logout from '../../components/icons/Logout';
+
+const cookies = new Cookies();
 
 const Wrapper = styled.div `
   display: flex;
@@ -8,6 +11,10 @@ const Wrapper = styled.div `
   width: 100%;
   justify-content: space-between;
   padding: 0 10px;
+  padding: 20px;
+  @media (min-width: 1000px) {
+    padding: 20px calc((100vw - 960px)/2)
+  }
   box-sizing: border-box;
   background: #c33c3c;
   align-items: center;
@@ -30,17 +37,27 @@ const IconWrapper = styled.div `
   box-sizing: border-box;
 `;
 
-class Header extends React.Component {
-  render() {
-    return (
-      <Wrapper>  
-        <Title>GoCrush</Title>
-        <IconWrapper>
-          <Logout onClick={()=>alert("Logout Clicked")}/>
-        </IconWrapper>
-      </Wrapper>
-    );
+
+
+function onLogoutClick() {
+  cookies.remove('Authorization');
+  location.reload();
+}
+
+function Header({ logoutIcon }) {
+  if ( !cookies.get('Authorization')) {
+    logoutIcon = {
+      display: 'none'
+    }
   }
+  return (
+    <Wrapper>  
+      <Title>GoCrush</Title>
+      <IconWrapper style={logoutIcon}>
+        <Logout onClick={()=>{onLogoutClick()}}/>
+      </IconWrapper>
+    </Wrapper>
+  );
 };
 
 export default Header;
