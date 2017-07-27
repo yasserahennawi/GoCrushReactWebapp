@@ -5,7 +5,7 @@ const cookies = new Cookies();
 
 // START: Handling Users's crushes API
 export function getMyCrushesPromise() {
-  return request.get(`http://localhost:4567/api/users/${cookies.get('appUserID')}/crushes`)
+  return request.get(`http://apigocrush.herokuapp.com/api/users/${cookies.get('appUserID')}/crushes`)
   .set('Authorization', cookies.get('Authorization'))
   .then((data)=>{
     return data.body;
@@ -15,7 +15,7 @@ export function getMyCrushesPromise() {
 
 // START: Handling getting crushes on user
 export function getCrushesOnMePromise(){
-  return request.get(`http://localhost:4567/api/users/${cookies.get('appUserID')}/crushes-on-me-count`)
+  return request.get(`http://apigocrush.herokuapp.com/api/users/${cookies.get('appUserID')}/crushes-on-me-count`)
     .set('Authorization', cookies.get('Authorization'))
     .then((data)=>{
       return data.text
@@ -25,7 +25,7 @@ export function getCrushesOnMePromise(){
 
 // START: Handling adding crush
 export function crushOnPromise(crushURL){
-  return request.post(`http://localhost:4567/api/users/${cookies.get('appUserID')}/crushes`)
+  return request.post(`http://apigocrush.herokuapp.com/api/users/${cookies.get('appUserID')}/crushes`)
     .set('Authorization', cookies.get('Authorization'))
     .send(crushURL)
     .then((data)=>{
@@ -36,7 +36,7 @@ export function crushOnPromise(crushURL){
 
 // START: Handling deleting crush
 export function deleteCrushPromise(crushFbId) {
-  return request.delete(`http://localhost:4567/api/users/${cookies.get('appUserID')}/crushes/${crushFbId}`)
+  return request.delete(`http://apigocrush.herokuapp.com/api/users/${cookies.get('appUserID')}/crushes/${crushFbId}`)
     .set('Authorization', cookies.get('Authorization'))
     .then((data)=>{
       return data.body;
@@ -63,4 +63,3 @@ function getCrushIndex(crush) {
     }
   }
 }
-

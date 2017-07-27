@@ -6,7 +6,7 @@ const cookies = new Cookies();
 // Session API that authorize the user
 export function authUser() {
   return request
-    .get(`http://localhost:4567/api/users/session`)
+    .get(`http://apigocrush.herokuapp.com/api/users/session`)
     .set('Authorization', cookies.get('Authorization'))
     .then((data)=>{
       return data.body
