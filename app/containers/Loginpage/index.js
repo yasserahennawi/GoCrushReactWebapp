@@ -40,7 +40,7 @@ class Loginpage extends React.Component {
         <Paper>
           <Login>Login</Login>
           <SocialButton 
-            onClick={()=>{window.location = 'http://localhost:4567/api/login'}}
+            onClick={()=>{window.location = 'http://apigocrush.herokuapp.com/api/login'}}
             text='Sign in with facebook'
             logo={<Facebook/>}
             textColor='#FFF'
